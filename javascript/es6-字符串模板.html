@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>javascript</title>
+</head>
+
+<body>
+    <div>es6字符串模板</div>
+</body>
+<script>
+    const name = '张三';
+    const age = 18;
+    //简单的变量替换
+    const msg = `你好！我是${name}，今年${age}岁！`;
+    console.log(msg);    //你好！我是张三，今年18岁！
+
+    //解析模板字符串的函数
+    //arr : 被变量截断的字符串的分组
+    //palceholder : 变量的值的分组
+    const tag = (arr, ...palceholder) => {
+        console.log(arr);    //["你好！我是", "，今年", "岁！", raw: Array(3)]
+        console.log(...palceholder);    //张三 18（长度是2）
+    }
+    //调用时不能带括号
+    const result = tag`你好！我是${name}，今年${age}岁！`;
+</script>
+</html>

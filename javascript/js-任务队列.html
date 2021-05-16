@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>javascript</title>
+</head>
+
+<body>
+  <div id="tmp">
+    <h2>知识点</h2>
+    <p>
+      js是单线程语言。所以，所有任务都需要排队按序执行，只有前一个任务执行完毕，后一个任务才开始执行。试想，如果只能是这样的话，一旦出现一个任务执行时间过长，那下一个任务就只能等在那里，这显然有点尴尬。所以，js就有了同步任务和异步任务。
+    </p>
+    <h3>相关概念：</h3>
+    <ur>
+      <li>
+        js任务队列:js代码在执行时，如果发现是同步任务则立即执行，发现是异步任务则将其存入任务队列，然后继续执行下一个任务。等所有同步任务执行完毕后，js引擎会查看任务队列，如果队列中存在任务，则继续执行任务队列中的任务。如此循环反复。
+      </li>
+      <li>宏任务：setTimeout，setInterval，ajax，dom事件</li>
+      <li>微任务：nextTick，Promise.then catch finally（Promise本身是同步任务）</li>
+      <li>定时器模块 : js引擎遇到 setTimeout 任务时，会先将其存入定时器模块，待时间到达后，将其移入宏任务中</li>
+    </ur>
+  </div>
+</body>
+<script>
+  console.log('1'); //同步代码
+  setTimeout(() => { //定时5秒到达后，将其加入宏任务队列
+    console.log('13');
+  }, 5000);
+  setTimeout(() => { //宏任务1
+    console.log('5'); //宏任务1的同步代码
+    new Promise((resolve, reject) => {
+      console.log('6'); //宏任务1的同步代码
+      resolve(); //宏任务1的微任务
+      console.log('7'); //宏任务1的同步代码
+    }).then(res => {
+      console.log('9'); //宏任务1的微任务的同步代码
+      a.b;
+    }).catch(r => {
+      console.log('10'); //宏任务1的微任务的同步代码
+    }).finally(() => {
+      console.log('11'); //宏任务1的微任务的同步代码
+    });
+    console.log('8'); //宏任务1的同步代码ß
+  }, 0);
+  new Promise((resolve, reject) => {
+    console.log('2'); //同步代码
+    resolve(); //微任务1
+    setTimeout(() => { //宏任务2
+      console.log('12'); //宏任务2的同步代码
+    }), 0;
+  }).then(res => {
+    console.log('4'); //微任务1的同步代码
+  });
+  console.log('3'); //同步代码
+</script>
+
+</html>
